@@ -3,6 +3,8 @@ import {withFormik, Form, Field, setNestedObjectValues} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
+import UserCard from './UserCard';
+
 function SignupForm({values, errors, touched, status}) {
 
     const [users, setUsers] = useState([]);
@@ -18,16 +20,16 @@ function SignupForm({values, errors, touched, status}) {
                 {console.log(users)}
                 <Form>
 
-                    {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
+                    {touched.firstname && errors.firstname && <p className='error'>{errors.firstname}</p>}
                     <Field type='text' name='firstname' placeholder='First Name' />
 
-                    {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
+                    {touched.lastname && errors.lastname && <p className='error'>{errors.lastname}</p>}
                     <Field type='text' name='lastname' placeholder='Last Name' />
 
-                    {touched.email && errors.email && <p>{errors.email}</p>}
+                    {touched.email && errors.email && <p className='error'>{errors.email}</p>}
                     <Field type='email' name='email' placeholder='Email' />
 
-                    {touched.password && errors.password && <p>{errors.password}</p>}
+                    {touched.password && errors.password && <p className='error'>{errors.password}</p>}
                     <Field type='password' name='password' placeholder='Password' />
 
                     <label className='checkbox-container'>
@@ -41,7 +43,7 @@ function SignupForm({values, errors, touched, status}) {
                 </Form>
             </div>
             <div className='users-container'>
-                
+                {users.map(user => <UserCard user={user} />)}
             </div>
         </div>
     )
