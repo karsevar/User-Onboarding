@@ -7,48 +7,69 @@ function SignupForm({values, errors, touched}) {
     return (
         <div className='loginForm'>
             <Form>
-                {touched.username && errors.username && <p>{errors.username}</p>}
-                <Field type='text' name='username' placeholder='Name' />
+
+                {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
+                <Field type='text' name='firstname' placeholder='First Name' />
+
+                {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
+                <Field type='text' name='lastname' placeholder='Last Name' />
+
                 {touched.email && errors.email && <p>{errors.email}</p>}
                 <Field type='email' name='email' placeholder='Email' />
+
                 {touched.password && errors.password && <p>{errors.password}</p>}
                 <Field type='password' name='password' placeholder='Password' />
+
                 <label>
                     <Field type='checkbox' name='tos' checked={values.tos} />
                     Accept Terms of Service
                 </label>
-                <button>Submit!</button>
+
+                <button type='submit'>Submit!</button>
+
             </Form>
         </div>
     )
 }
 
 const FormikLoginForm = withFormik({
-    mapPropsToValues({username, email, password, tos}) {
+    mapPropsToValues({firstname, lastname, email, password, tos}) {
         return {
-            username: username || '',
-            email: email || '',
+            firstname: firstname || '',
+            lastname: lastname || '',
             password: password || '',
+            email: email || '',
             tos: tos || false  
         };
     },
 
     validationSchema: Yup.object().shape({
-        username: Yup.string()
-            .min(14,'Too Short')
-            .max(30, 'Too Long')
-            .required('Name is Required'),
+        firstname: Yup.string()
+            .min(3, 'First Name needs to be more than 3') 
+            .max(60, 'First Name needs to be less than 60')
+            .matches(/[$A-Z]/, 'First letter needs to be uppercase')
+            .required(),
+        lastname: Yup.string() 
+            .min(3, 'Last Name needs to be more than 3')
+            .max(60, 'Last Name needs to be less than 60')
+            .matches(/[$A-Z]/, 'First letter needs to be uppercase')
+            .required(),
         email: Yup.string()
             .email('Invalid email')
-            .required('Email is Required'),
+            .required(),
         password: Yup.string()
             .min(9, 'Password must be 9 characters or longer') 
-            .required('Password is required') 
+            .matches(/[0-9]/, 'Needs at least one number')
+            .matches(/[*.,&^%$#@!()><?/]/, 'Needs at least one special character')
+            .required(),
+        tos: Yup.boolean() 
+            .required()
     }),
 
     handleSubmit(values) {
         console.log(values);
     }
+    
 })(SignupForm);
 
 export default FormikLoginForm;
