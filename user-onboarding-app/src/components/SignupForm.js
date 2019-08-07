@@ -37,10 +37,10 @@ const FormikLoginForm = withFormik({
         username: Yup.string()
             .min(14,'Too Short')
             .max(30, 'Too Long')
-            .required('Required'),
+            .required('Name is Required'),
         email: Yup.string()
             .email('Invalid email')
-            .required('Required'),
+            .required('Email is Required'),
         password: Yup.string()
             .min(9, 'Password must be 9 characters or longer') 
             .required('Password is required') 
