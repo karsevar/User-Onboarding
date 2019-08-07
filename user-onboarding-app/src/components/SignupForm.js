@@ -1,11 +1,20 @@
-import React from 'react';
-import {withFormik, Form, Field} from 'formik';
+import React, {useState, useEffect} from 'react';
+import {withFormik, Form, Field, setNestedObjectValues} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-function SignupForm({values, errors, touched}) {
+function SignupForm({values, errors, touched, status}) {
+
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        if(status) {
+            setUsers([...users, status]) 
+        }
+    }, [status])
+
     return (
         <div className='loginForm'>
+            {console.log(users)}
             <Form>
 
                 {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
@@ -28,6 +37,8 @@ function SignupForm({values, errors, touched}) {
                 <button type='submit'>Submit!</button>
 
             </Form>
+
+            {users.map(user => (<p key={user.id}>{user.firstname}</p>))}
         </div>
     )
 }
@@ -66,10 +77,15 @@ const FormikLoginForm = withFormik({
             .required()
     }),
 
-    handleSubmit(values) {
-        console.log(values);
+    handleSubmit(values, {setStatus}) {
+        axios
+            .post('https://reqres.in/api/users/', values) 
+            .then(res => {
+                setStatus(res.data)
+            })
+            .catch(error => console.log('error', error))
     }
-    
+
 })(SignupForm);
 
 export default FormikLoginForm;
