@@ -3,12 +3,15 @@ import {withFormik, Form, Field} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-function SignupForm({values}) {
+function SignupForm({values, errors, touched}) {
     return (
         <div className='loginForm'>
             <Form>
+                {touched.username && errors.username && <p>{errors.username}</p>}
                 <Field type='text' name='username' placeholder='Name' />
+                {touched.email && errors.email && <p>{errors.email}</p>}
                 <Field type='email' name='email' placeholder='Email' />
+                {touched.password && errors.password && <p>{errors.password}</p>}
                 <Field type='password' name='password' placeholder='Password' />
                 <label>
                     <Field type='checkbox' name='tos' checked={values.tos} />
@@ -29,6 +32,19 @@ const FormikLoginForm = withFormik({
             tos: tos || false  
         };
     },
+
+    validationSchema: Yup.object().shape({
+        username: Yup.string()
+            .min(14,'Too Short')
+            .max(30, 'Too Long')
+            .required('Required'),
+        email: Yup.string()
+            .email('Invalid email')
+            .required('Required'),
+        password: Yup.string()
+            .min(9, 'Password must be 9 characters or longer') 
+            .required('Password is required') 
+    }),
 
     handleSubmit(values) {
         console.log(values);
