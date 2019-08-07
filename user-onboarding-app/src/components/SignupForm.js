@@ -13,32 +13,36 @@ function SignupForm({values, errors, touched, status}) {
     }, [status])
 
     return (
-        <div className='loginForm'>
-            {console.log(users)}
-            <Form>
+        <div className='container'>
+            <div className='loginForm'>
+                {console.log(users)}
+                <Form>
 
-                {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
-                <Field type='text' name='firstname' placeholder='First Name' />
+                    {touched.firstname && errors.firstname && <p>{errors.firstname}</p>}
+                    <Field type='text' name='firstname' placeholder='First Name' />
 
-                {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
-                <Field type='text' name='lastname' placeholder='Last Name' />
+                    {touched.lastname && errors.lastname && <p>{errors.lastname}</p>}
+                    <Field type='text' name='lastname' placeholder='Last Name' />
 
-                {touched.email && errors.email && <p>{errors.email}</p>}
-                <Field type='email' name='email' placeholder='Email' />
+                    {touched.email && errors.email && <p>{errors.email}</p>}
+                    <Field type='email' name='email' placeholder='Email' />
 
-                {touched.password && errors.password && <p>{errors.password}</p>}
-                <Field type='password' name='password' placeholder='Password' />
+                    {touched.password && errors.password && <p>{errors.password}</p>}
+                    <Field type='password' name='password' placeholder='Password' />
 
-                <label>
-                    <Field type='checkbox' name='tos' checked={values.tos} />
-                    Accept Terms of Service
-                </label>
+                    <label className='checkbox-container'>
+                        Accept Terms of Service
+                        <Field type='checkbox' name='tos' checked={values.tos} />
+                        <span className='checkmark' />
+                    </label>
 
-                <button type='submit'>Submit!</button>
+                    <button type='submit'>Submit!</button>
 
-            </Form>
-
-            {users.map(user => (<p key={user.id}>{user.firstname}</p>))}
+                </Form>
+            </div>
+            <div className='users-container'>
+                
+            </div>
         </div>
     )
 }
