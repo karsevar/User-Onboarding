@@ -10,14 +10,29 @@ function SignupForm({values}) {
                 <Field type='text' name='username' placeholder='Name' />
                 <Field type='email' name='email' placeholder='Email' />
                 <Field type='password' name='password' placeholder='Password' />
-                {/* <label>
+                <label>
                     <Field type='checkbox' name='tos' checked={values.tos} />
                     Accept Terms of Service
-                </label> */}
+                </label>
                 <button>Submit!</button>
             </Form>
         </div>
     )
 }
 
-export default SignupForm;
+const FormikLoginForm = withFormik({
+    mapPropsToValues({username, email, password, tos}) {
+        return {
+            username: username || '',
+            email: email || '',
+            password: password || '',
+            tos: tos || false  
+        };
+    },
+
+    handleSubmit(values) {
+        console.log(values);
+    }
+})(SignupForm);
+
+export default FormikLoginForm;
